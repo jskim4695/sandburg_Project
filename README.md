@@ -6,6 +6,13 @@
 - 공지게시판(Announce): Read는 모두가능, Write/Update/Delete admin만 가능
 - 운영게시판(Manage): R/W admin만 가능
 
+### 사용기술
+- NestJS, TypeOrm
+- DB: MySQL
+- Swagger
+
+
+
   ERD CLOUD
 https://www.erdcloud.com/d/ER4yKMmPCvYBhQKMP
 
