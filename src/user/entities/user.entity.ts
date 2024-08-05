@@ -1,5 +1,7 @@
 import { IsEmail, IsNumber, IsString } from 'class-validator';
-import { Free } from 'src/free/entities/post.entity';
+import { Announce } from 'src/announce/entities/announce.entity';
+import { Free } from 'src/free/entities/free.entity';
+import { Manage } from 'src/manage/entities/manage.entity';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 
@@ -38,4 +40,11 @@ export class User {
 
   @OneToMany(() => Free, (free) => free.user)
   free: Free[];
+
+  @OneToMany(() => Manage, (manage) => manage.user)
+  manage: Manage[];
+
+  @OneToMany(() => Announce, (announce) => announce.user)
+  announce: Announce[];
+
 }

@@ -1,10 +1,15 @@
 import { User } from "src/user/entities/user.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity({name: 'free'})
+@Entity({
+  name: 'free'
+})
 export class Free {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({type: 'int', nullable: false })
+  user_id: number;
 
   @Column( {type: 'varchar', nullable: false})
   title: string;
@@ -18,10 +23,9 @@ export class Free {
   @UpdateDateColumn({ type: 'timestamp', nullable: false })
   updated_at: Date;
 
-  @ManyToOne(() => User, (user) => user.free)
-  @JoinColumn({ name: 'user_id' })
-  user: User
-
-  @Column('int', {name: 'user_id', nullable: false})
-  user_id: number;
+  @ManyToOne(() => User, (user) => user.free, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn() 
+  user: User;
 }

@@ -12,7 +12,9 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { User } from './user/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { UtilsModule } from './utils/utils.module';
-import { Free } from './free/entities/post.entity';
+import { Free } from './free/entities/free.entity';
+import { Manage } from './manage/entities/manage.entity';
+import { Announce } from './announce/entities/announce.entity';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -26,7 +28,7 @@ const typeOrmModuleOptions = {
     port: configService.get('DB_PORT'),
     database: configService.get('DB_NAME'),
     entities: [
-      User, Free,
+      User, Free, Manage, Announce,
     ], // 엔티티는 반드시 여기에 명시!
     synchronize: configService.get('DB_SYNC'),
     logging: true,

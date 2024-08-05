@@ -22,8 +22,9 @@ export class UserController {
   @ApiOperation({ summary: '회원가입', description: '사용자 정보를 추가합니다.' })
   @ApiCreatedResponse({ description: '유저를 생성한다', type: RegisterDto })
   @ApiResponse({ status: 201, description: '회원가입에 성공하였습니다' })
+  @ApiBody({ type: RegisterDto })
   @HttpCode(201)
-  async register(@Body() body: any) {
+  async register(@Body() body: RegisterDto) {
     const registerDto: RegisterDto = body
     return await this.userService.register(registerDto);
   }
@@ -56,16 +57,7 @@ export class UserController {
   @ApiOperation({ summary: '프로필', description: '회원정보를 확인' })
   @ApiCreatedResponse({
     description: '회원 정보',
-    schema: {
-      example: {
-        "id": 7,
-        "email": "jskim4695@gmail.com",
-        "name": "김진성",
-        "phone": "010-1234-1234",
-        "is_admin": false,
-        "created_at": "2024-04-08T17:41:21.343Z"
-      },
-    },
+    type: User
   })
   async getInfo(@UserInfo() user: User) {
     return {
@@ -82,15 +74,8 @@ export class UserController {
     @UseGuards(AuthGuard('jwt'))
     @Patch('modify')
     @ApiOperation({ summary: '회원정보 수정', description: '회원정보를 수정' })
-    @ApiBody({
-      schema: {
-        type: 'object',
-        properties: {
-          password: { type: 'string', description: '유저 닉네임' },
-          phone: { type: 'string', description: '유저 전화번호' },
-        },
-      },
-    })
+    @ApiBody({type: UserUpdateDto})
+    @ApiResponse({ status: 200, description: '회원 정보 수정 성공', type: User }) 
     async update(
       @UserInfo() user: User,
       @Body() userUpdateDto: UserUpdateDto,
@@ -109,6 +94,7 @@ export class UserController {
   @ApiResponse({ status: 204, description: '회원 탈퇴 성공' })
   @ApiResponse({ status: 400, description: '잘못된 요청' })
   @ApiResponse({ status: 401, description: '비밀번호가 올바르지 않음' })
+  @ApiBody({type: RemoveUserDto})
   @HttpCode(204)
   async remove(@UserInfo() user: User, @Body() removeUserDto: RemoveUserDto) {
     await this.userService.remove(user.id, removeUserDto);
